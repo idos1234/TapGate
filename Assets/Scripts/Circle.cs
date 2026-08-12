@@ -45,7 +45,7 @@ public class Circle: MonoBehaviour
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         float originalSpriteWidth = sr.bounds.size.x;
 
-        // 4. Calculate local scale and apply it
+        //Calculate local scale and apply it
         float desiredScale = targetWidthUnits / originalSpriteWidth;
         transform.localScale = new Vector3(desiredScale, desiredScale, 1f);
     }
