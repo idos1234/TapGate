@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Circle: MonoBehaviour
 {
@@ -29,6 +30,15 @@ public class Circle: MonoBehaviour
         // Smoothly move current X towards target X
         float newX = Mathf.MoveTowards(transform.position.x, targetX, moveSpeed * Time.deltaTime);
         transform.position = new Vector3(newX, transform.position.y, transform.position.z);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Window"))
+        {
+            Debug.Log("Collision detected with Window. Loading GameOverScene.");
+            SceneManager.LoadScene("GameOverScene");
+        }
     }
 
     void MatchScreenSize()
