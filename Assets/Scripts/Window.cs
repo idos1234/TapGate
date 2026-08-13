@@ -6,7 +6,7 @@ public class Window : MonoBehaviour
     public float moveUpSpeed = 3f; // Speed at which the window moves up
     private float destroyYPosition;
 
-    private bool open = false; // Adjust speed in the Inspector
+    private bool open; // Adjust speed in the Inspector
     private float gapPercentage = 0.0f; // Gap percentage of screen width (0.0 = no gap, 0.2 = 20% of screen width)
 
     public float heightPercentage = 0.05f; // 0.05 = 5% of screen height
@@ -18,6 +18,18 @@ public class Window : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        open = Random.value > 0.5f; // Randomly set the initial state of the window (open or closed)
+        if (!open)
+        {
+            gapPercentage = 0.2f; // 0.20 = 20% of screen width
+        }
+        else
+        {
+            gapPercentage = 0.0f; // no gap
+        }
+
+        open = !open;
+
         MatchScreenSize();
     }
 
