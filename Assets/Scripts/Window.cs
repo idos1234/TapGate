@@ -3,11 +3,12 @@ using UnityEngine.InputSystem;
 
 public class Window : MonoBehaviour
 {
-    public float moveUpSpeed = 3f; // Speed at which the window moves up
+    private float moveUpSpeed = 3f;
     private float destroyYPosition;
 
     private bool open; // Adjust speed in the Inspector
-    private float gapPercentage = 0.0f; // Gap percentage of screen width (0.0 = no gap, 0.2 = 20% of screen width)
+    private float gapPercentage; // Gap percentage of screen width
+    private float gapOpen;
 
     public float heightPercentage = 0.05f; // 0.05 = 5% of screen height
     public float slideSpeed = 10f; // Speed of opening/closing animation
@@ -15,13 +16,20 @@ public class Window : MonoBehaviour
     public GameObject rightChild;
     public GameObject leftChild;
 
+    // Init function
+    public void Initialize(float speed, float gap)
+    {
+        moveUpSpeed = speed;
+        gapOpen = gap;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         open = Random.value > 0.5f; // Randomly set the initial state of the window (open or closed)
         if (!open)
         {
-            gapPercentage = 0.2f; // 0.20 = 20% of screen width
+            gapPercentage = gapOpen;
         }
         else
         {
@@ -44,7 +52,7 @@ public class Window : MonoBehaviour
         {
             if (!open)
             {
-                gapPercentage = 0.2f; // 0.20 = 20% of screen width
+                gapPercentage = gapOpen;
             }
             else
             {
