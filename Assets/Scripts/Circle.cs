@@ -34,7 +34,7 @@ public class Circle: MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Window"))
+        if (collision.gameObject.CompareTag("WindowChild"))
         {
             Debug.Log("Collision detected with Window. Loading GameOverScene.");
             SceneManager.LoadScene("GameOverScene");
