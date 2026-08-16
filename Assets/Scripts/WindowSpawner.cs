@@ -5,9 +5,7 @@ using UnityEngine;
 public class WindowSpawner : MonoBehaviour
 {
     public GameObject windowPrefab; // Drag your Window prefab here in Inspector
-    public float spawnInterval = 3f; // Spawn every 3 seconds
 
-    public TextMeshProUGUI levelsTimerText;
     public TextMeshProUGUI levelText;
 
     public float fadeDuration = 1.0f;
@@ -18,40 +16,56 @@ public class WindowSpawner : MonoBehaviour
     private int level = 1;
     private bool levelBreak = false;
 
+    private float windowSpeed = 4f;
+    private float delaySpawn = 2f;
+    private float gapPercentage = 0.525f;
+
     void Update()
     {
+
         spawnTimer += Time.deltaTime;
         levelsTimer += Time.deltaTime;
-        levelsTimerText.text = levelsTimer.ToString();
 
         if (level == 1 && levelsTimer >= 10)
         {
             levelBreak = true;
             level = 2;
+            windowSpeed = 4f;
+            delaySpawn = 1.5f;
+            gapPercentage = 0.45f;
             StartCoroutine(NewLevelAnimation("Speed Up"));
         }
         if (level == 2 && levelsTimer >= 15)
         {
             levelBreak = true;
             level = 3;
+            windowSpeed = 5f;
+            delaySpawn = 1.2f;
+            gapPercentage = 0.375f;
             StartCoroutine(NewLevelAnimation("Warning"));
         }
         if (level == 3 && levelsTimer >= 20)
         {
             levelBreak = true;
             level = 4;
+            windowSpeed = 6f;
+            delaySpawn = 1f;
+            gapPercentage = 0.315f;
             StartCoroutine(NewLevelAnimation("Chaos"));
         }
         if (level == 4 && levelsTimer >= 25)
         {
             levelBreak = true;
             level = 5;
+            windowSpeed = 7f;
+            delaySpawn = 0.85f;
+            gapPercentage = 0.27f;
             StartCoroutine(NewLevelAnimation("Danger"));
         }
 
 
         // Check if it's time to spawn a new window
-        if (spawnTimer >= spawnInterval && !levelBreak)
+        if (spawnTimer >= delaySpawn && !levelBreak)
         {
             SpawnWindow();
             spawnTimer = 0f; // Reset the timer
@@ -121,7 +135,14 @@ public class WindowSpawner : MonoBehaviour
         float targetY = -screenHeightUnits / 2f - (screenHeightUnits * 0.1f); // Adjust Y position to be at the bottom of the screen
 
 
-        // Instantiate (spawn) the window prefab in the scene
-        Instantiate(windowPrefab, new Vector3(targetX, targetY, 0f), Quaternion.identity);
+        // Create the window
+        GameObject newWindow = Instantiate(windowPrefab, new Vector3(targetX, targetY, 0f), Quaternion.identity);
+
+        // Pass speed and spawn
+        Window windowScript = newWindow.GetComponent<Window>();
+        if (windowScript != null)
+        {
+            windowScript.Initialize(windowSpeed, gapPercentage);
+        }
     }
 }
