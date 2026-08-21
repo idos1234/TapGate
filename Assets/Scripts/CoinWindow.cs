@@ -6,6 +6,7 @@ public class CoinWindow : MonoBehaviour
     private float heightPercentage = 0.05f; // 0.05 = 5% of screen height
     private float destroyYPosition;
     private float slideSpeed = 10f; // Speed of opening/closing animation
+    private float moveUpSpeed = 3f;
 
     private bool open; // Adjust speed in the Inspector
     private float gapPercentage = 0f; // Gap percentage of screen width
@@ -15,6 +16,12 @@ public class CoinWindow : MonoBehaviour
     public GameObject leftChild;
     public GameObject middleChild;
     public GameObject coin;
+
+    public void Initialize(float speed, float gap)
+    {
+        moveUpSpeed = speed;
+        gapOpen = gap;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -42,7 +49,7 @@ public class CoinWindow : MonoBehaviour
     void Update()
     {
         // Move the window upwards
-        //transform.position += Vector3.up * moveUpSpeed * Time.deltaTime;
+        transform.position += Vector3.up * moveUpSpeed * Time.deltaTime;
 
         // Check for click/tap using the New Input System
         if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame)
@@ -57,6 +64,12 @@ public class CoinWindow : MonoBehaviour
             }
 
             open = !open;
+        }
+
+        // Destroy the window if it moves above the screen
+        if (transform.position.y >= destroyYPosition)
+        {
+            Destroy(gameObject);
         }
 
         MatchPosition();
