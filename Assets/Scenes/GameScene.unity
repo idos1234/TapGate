@@ -560,6 +560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   windowPrefab: {fileID: 6886736447339599201, guid: 9a0757823620d8c49a9f534d96f9f16d, type: 3}
+  coinWindowPrefab: {fileID: 1077326000277783082, guid: 19615e688635ff842bfe07a72792b79b, type: 3}
   levelText: {fileID: 169224821}
   fadeDuration: 1
   displayDuration: 3

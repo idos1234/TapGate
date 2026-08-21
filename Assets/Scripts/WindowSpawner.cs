@@ -5,6 +5,7 @@ using UnityEngine;
 public class WindowSpawner : MonoBehaviour
 {
     public GameObject windowPrefab; // Drag your Window prefab here in Inspector
+    public GameObject coinWindowPrefab; // Drag your Window prefab here in Inspector
 
     public TextMeshProUGUI levelText;
 
@@ -19,6 +20,8 @@ public class WindowSpawner : MonoBehaviour
     private float windowSpeed = 4f;
     private float delaySpawn = 2f;
     private float gapPercentage = 0.525f;
+
+    private int windowsSinceLastCoin = 0;
 
     void Update()
     {
@@ -122,7 +125,45 @@ public class WindowSpawner : MonoBehaviour
         levelText.color = color;
     }
 
+
     void SpawnWindow()
+    {
+        float coinChance = 0.05f * windowsSinceLastCoin;
+        
+        if(Random.value < coinChance || windowsSinceLastCoin >= 10)
+        {
+            SpawnCoinWindow();
+            windowsSinceLastCoin = 0; // Reset
+        } else
+        {
+            SpawnDefaultWindow();
+            ++windowsSinceLastCoin;
+        }
+    }
+    
+    void SpawnCoinWindow()
+    {
+        // Get the main camera
+        Camera mainCam = Camera.main;
+
+        // Calculate screen dimensions in Unity world units
+        float screenHeightUnits = mainCam.orthographicSize * 2f;
+        float screenWidthUnits = screenHeightUnits * mainCam.aspect;
+
+        float targetY = -screenHeightUnits / 2f - (screenHeightUnits * 0.1f); // Adjust Y position to be at the bottom of the screen
+
+
+        // Create the window
+        GameObject newWindow = Instantiate(coinWindowPrefab, new Vector3(0f, targetY, 0f), Quaternion.identity);
+
+        // Pass speed and spawn
+        CoinWindow coinWindowScript = newWindow.GetComponent<CoinWindow>();
+        if (coinWindowScript != null)
+        {
+            coinWindowScript.Initialize(windowSpeed, gapPercentage);
+        }
+    }
+    void SpawnDefaultWindow()
     {
         // Get the main camera
         Camera mainCam = Camera.main;

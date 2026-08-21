@@ -6,6 +6,7 @@ TagManager:
   tags:
   - WindowChild
   - Window
+  - Coin
   layers:
   - Default
   - TransparentFX

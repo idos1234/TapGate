@@ -39,6 +39,11 @@ public class Circle: MonoBehaviour
             Debug.Log("Collision detected with Window. Loading GameOverScene.");
             SceneManager.LoadScene("GameOverScene");
         }
+
+        if(collision.gameObject.CompareTag("Coin"))
+        {
+            Destroy(collision.gameObject);
+        }
     }
 
     void MatchScreenSize()
